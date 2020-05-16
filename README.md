@@ -1,98 +1,44 @@
-Welcome to the AWS CodeStar sample web application
-==================================================
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-This sample code helps get you started with a simple Express web application
-deployed by AWS Elastic Beanstalk and AWS CloudFormation.
+## Available Scripts
 
-What's Here
------------
+In the project directory, you can run:
 
-This sample includes:
+### `npm start`
 
-* README.md - this file
-* .ebextensions/ - this directory contains the configuration files that
-  AWS Elastic Beanstalk will deploy your Express application
-* buildspec.yml - this file is used by AWS CodeBuild to package your project.
-* package.json - this file contains various metadata relevant to your Node.js
-  application such as dependencies
-* server.js - this file contains the code for your application
-* public/ - this directory contains static web assets used by your application
-* tests/ - this directory contains unit tests for your application
-* template.yml - this file contains the description of AWS resources used by AWS
-  CloudFormation to deploy your infrastructure
-* template-configuration.json - this file contains the project ARN with placeholders used for tagging resources with the project ID  
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
 
-Getting Started
----------------
+### `npm test`
 
-These directions assume you want to develop on your local computer, and not
-from the Amazon EC2 instance itself. If you're on the Amazon EC2 instance, the
-virtual environment is already set up for you, and you can start working on the
-code.
+Launches the test runner in the interactive watch mode.<br />
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-To work on the sample code, you'll need to clone your project's repository to your
-local computer. If you haven't, do that first. You can find instructions in the AWS CodeStar user guide at https://docs.aws.amazon.com/codestar/latest/userguide/getting-started.html#clone-repo.
+### `npm run build`
 
-1. Install Node.js on your computer.  For details on available installers visit
-   https://nodejs.org/en/download/.
+Builds the app for production to the `build` folder.<br />
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-2. Install NPM dependencies:
+The build is minified and the filenames include the hashes.<br />
+Your app is ready to be deployed!
 
-        $ npm install
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-3. Start the development server:
+### `npm run eject`
 
-        $ node server.js
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-4. Open http://127.0.0.1:3000/ in a web browser to view your application.
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-What Do I Do Next?
-------------------
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-Once you have a virtual environment running, you can start making changes to
-the sample Express web application. We suggest making a small change to
-/public/index.html first, so you can see how changes pushed to your project's
-repository are automatically picked up and deployed to the Amazon EC2 instance
-by AWS Elastic Beanstalk. (You can watch the progress on your project dashboard.)
-Once you've seen how that works, start developing your own code, and have fun!
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-To run your tests locally, go to the root directory of the
-sample code and run the `npm test` command, which
-AWS CodeBuild also runs through your `buildspec.yml` file.
+## Learn More
 
-To test your new code during the release process, modify the existing tests or
-add tests to the tests directory. AWS CodeBuild will run the tests during the
-build stage of your project pipeline. You can find the test results
-in the AWS CodeBuild console.
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-Learn more about AWS CodeBuild and how it builds and tests your application here:
-https://docs.aws.amazon.com/codebuild/latest/userguide/concepts.html
-
-Learn more about AWS CodeStar by reading the user guide.  Ask questions or make
-suggestions on our forum.
-
-User Guide: http://docs.aws.amazon.com/codestar/latest/userguide/welcome.html
-
-Forum: https://forums.aws.amazon.com/forum.jspa?forumID=248
-
-How Do I Add Template Resources to My Project?
-------------------
-
-To add AWS resources to your project, you'll need to edit the `template.yml`
-file in your project's repository. You may also need to modify permissions for
-your project's worker roles. After you push the template change, AWS CodeStar
-and AWS CloudFormation provision the resources for you.
-
-See the AWS CodeStar user guide for instructions to modify your template:
-https://docs.aws.amazon.com/codestar/latest/userguide/how-to-change-project.html#customize-project-template
-
-What Should I Do Before Running My Project in Production?
-------------------
-
-AWS recommends you review the security best practices recommended by the framework
-author of your selected sample application before running it in production. You
-should also regularly review and apply any available patches or associated security
-advisories for dependencies used within your application.
-
-Best Practices: https://docs.aws.amazon.com/codestar/latest/userguide/best-practices.html?icmpid=docs_acs_rm_sec
+To learn React, check out the [React documentation](https://reactjs.org/).
