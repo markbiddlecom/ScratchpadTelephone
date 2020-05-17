@@ -1,5 +1,6 @@
 export type PeerId = string;
 export type CardId = string;
+export type GameId = string;
 
 export enum PlayerState {
   Joined = "joined",
@@ -10,6 +11,7 @@ export enum PlayerState {
 };
 
 export enum CardState {
+  Pending = "pending",
   Authoring = "authoring",
   Committed = "committed",
 };
@@ -17,6 +19,13 @@ export enum CardState {
 export enum CardType {
   Description = "description",
   Drawing = "drawing",
+};
+
+export enum AppState {
+  Landing = "landing",
+  Connecting = "connecting",
+  Lobby = "lobby",
+  Playing = "playing",
 };
 
 export type Peer = {
@@ -29,7 +38,7 @@ export type Session = {
   streamUrl: string,
   nextSequenceNumber: number,
   connected: boolean,
-  partners: { [id: PeerId]: Peer },
+  partners: { [peerId: string]: Peer },
 };
 
 export type Player = {
@@ -45,18 +54,20 @@ export type Card = {
   type: CardType,
   state: CardState,
   author: PeerId,
-  inspirationId?: CardId,
+  previousCard?: CardId,
+  nextCard?: CardId,
   content: string | any,
 };
 
 export type Game = {
-  id: string,
+  id: GameId,
   timestamp: number,
-  players: { [id: PlayerId]: Player },
-  cards: { [id: CardId]: Card },
+  players: { [playerId: string]: Player },
+  cards: { [cardId: string]: Card },
 };
 
 export type State = {
+  appState: AppState,
   game?: Game,
   session?: Session,
 };
