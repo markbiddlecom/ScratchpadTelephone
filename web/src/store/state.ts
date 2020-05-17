@@ -66,8 +66,12 @@ export type Game = {
   cards: { [cardId: string]: Card },
 };
 
-export type State = {
+export type UserInterface = {
   appState: AppState,
+};
+
+export type State = {
+  ui: UserInterface,
   game?: Game,
   session?: Session,
 };

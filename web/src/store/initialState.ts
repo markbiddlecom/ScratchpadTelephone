@@ -1,7 +1,7 @@
 import { AppState, State } from "./state";
 
 const INITIAL_STATE: State = {
-    appState: AppState.Lobby,
+    ui: { appState: AppState.Landing },
 };
 
 export default INITIAL_STATE;

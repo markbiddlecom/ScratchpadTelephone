@@ -10,21 +10,6 @@ body {
   padding: spacing(2);
 }
 
-.App {
-  .hero {
-    display: flex;
-    margin-bottom: spacing(2);
-
-    .logo { margin-right: spacing(2); }
-  }
-
-  .StartGameForm {
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
