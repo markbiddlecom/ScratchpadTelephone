@@ -1,0 +1,5 @@
+$_baseUnit: 8px;
+
+@function spacing($amount) {
+  @return $_baseUnit * $amount;
+}

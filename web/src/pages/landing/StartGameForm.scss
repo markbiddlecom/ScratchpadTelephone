@@ -1,0 +1,15 @@
+@import "../../styles/colors";
+@import "../../styles/layout";
+
+.StartGameForm {
+  button { height: 40px; }
+  button, .MuiFormControl-root { width: 100%; }
+
+  .or p {
+    text-align: center;
+    color: $text-secondary;
+    font-weight: 500;
+    font-style: italic;
+    padding: spacing(1);
+  }
+}
