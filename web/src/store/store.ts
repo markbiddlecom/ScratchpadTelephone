@@ -1,5 +1,6 @@
-import { createStore, AnyAction } from "redux";
-import { devToolsEnhancer } from "redux-devtools-extension";
+import { createStore, AnyAction, applyMiddleware } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import thunkMiddleware from "redux-thunk";
 
 import { AppActionType } from "./appActions";
 import INITIAL_STATE from "./initialState";
@@ -25,4 +26,9 @@ function appReducer(state: State | undefined = INITIAL_STATE, action: AnyAction)
     }
 }
 
-export default createStore(appReducer, devToolsEnhancer({}));
+export default createStore(
+    appReducer,
+    composeWithDevTools(applyMiddleware(
+        thunkMiddleware
+    ))
+);
