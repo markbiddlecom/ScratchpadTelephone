@@ -11,12 +11,10 @@ phases:
       - pip3 install --upgrade awscli
   pre_build:
     commands:
-      - cd web
       - npm run test
   post_build:
     commands:
       # Produce a build
-      - cd web
       - npm run build
 
       - cd ..
