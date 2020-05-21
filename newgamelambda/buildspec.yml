@@ -5,17 +5,19 @@ phases:
     runtime-versions:
       nodejs: 10
     commands:
-      - cd web
+      - cd newgamelambda
       - npm install
       # Upgrade AWS CLI to the latest version
       - pip3 install --upgrade awscli
   post_build:
     commands:
+      - npm run build
+
       # Do not remove this statement. This command is required for AWS CodeStar projects.
       # Update the AWS Partition, AWS Region, account ID and project ID in the project ARN on template-configuration.json file so AWS CloudFormation can tag project resources.
       - cd ..
       - sed -i.bak 's/\$PARTITION\$/'${PARTITION}'/g;s/\$AWS_REGION\$/'${AWS_REGION}'/g;s/\$ACCOUNT_ID\$/'${ACCOUNT_ID}'/g;s/\$PROJECT_ID\$/'${PROJECT_ID}'/g' template-configuration.json
 artifacts:
-  base-directory: newgamelambda/
+  base-directory: newgamelambda/build/
   files:
     - ./**/*
