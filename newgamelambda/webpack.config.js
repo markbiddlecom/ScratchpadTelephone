@@ -3,12 +3,14 @@ var path = require('path');
 module.exports = {
     // Change to your "entry-point".
     entry: './src/index',
+    target: 'node',
     output: {
         path: path.resolve(__dirname, 'build'),
-        filename: 'index.js'
+        filename: 'index.js',
+        libraryTarget: 'umd',
     },
     resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.json']
+        extensions: ['.ts', '.tsx', '.js', '.json'],
     },
     module: {
         rules: [{
