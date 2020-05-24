@@ -1,4 +1,4 @@
-import randomBytes from "./randomBytes";
+import randomBytes from "../randomBytes";
 
 export default async function newGameToken(length: number, chars: string): Promise<string> {
   const bytes = await randomBytes(length);

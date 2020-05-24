@@ -3,7 +3,7 @@ import "mocha";
 import { expect } from "chai";
 import sinon, { SinonStub } from "sinon";
 
-import * as randomBytes from "./randomBytes";
+import * as randomBytes from "../randomBytes";
 
 import newGameToken from "./newGameToken";
 

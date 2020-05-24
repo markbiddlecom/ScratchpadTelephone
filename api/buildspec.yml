@@ -5,7 +5,7 @@ phases:
     runtime-versions:
       nodejs: 10
     commands:
-      - cd newgamelambda
+      - cd api
       - npm install
       # Upgrade AWS CLI to the latest version
       - pip3 install --upgrade awscli
@@ -24,7 +24,7 @@ phases:
       - cd ../..
       - sed -i.bak 's/\$PARTITION\$/'${PARTITION}'/g;s/\$AWS_REGION\$/'${AWS_REGION}'/g;s/\$ACCOUNT_ID\$/'${ACCOUNT_ID}'/g;s/\$PROJECT_ID\$/'${PROJECT_ID}'/g' template-configuration.json
 artifacts:
-  base-directory: newgamelambda/build/
+  base-directory: api/build/
   files:
     - template.yml
     - outputtemplate.yml
