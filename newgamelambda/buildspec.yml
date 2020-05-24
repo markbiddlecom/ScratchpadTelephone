@@ -9,6 +9,9 @@ phases:
       - npm install
       # Upgrade AWS CLI to the latest version
       - pip3 install --upgrade awscli
+  pre_build:
+    commands:
+      - npm run test
   post_build:
     commands:
       - npm run build
