@@ -2,14 +2,14 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Allows the creation of new games in the scratchpad telephone app.
 Resources:
-  scratchpadtelep-newgamelambda:
+  ScratchpadTelepNewGameLambda:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.handler
       Runtime: nodejs12.x
       CodeUri: ./
       Events:
-        scratchpadtelep-newgameapi:
+        ScratchpadTelepNewGameApi:
           Type: Api
           Properties:
             Path: /games
