@@ -2,6 +2,6 @@ import "@babel/polyfill";
 
 import newGameHandler from "./newgame";
 
-module.exports = {
+export {
   newGameHandler,
 };
