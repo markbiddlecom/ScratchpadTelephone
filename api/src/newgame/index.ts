@@ -1,17 +1,25 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 
+import createOrComandeerGame from "./createOrComandeerGame";
 import CONFIG from "../config";
-import newGameToken from "./newGameToken";
-
-const TOKEN_CHARS: string = 
-    Object.keys(CONFIG.TOKEN_CHARS)
-        .reduce((chars: string, char: string) => chars + char, "");
 
 export default async function newGameHandler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      token: CONFIG.TOKEN_FORMATTER(await newGameToken(CONFIG.TOKEN_LENGTH, TOKEN_CHARS)),
-    }),
-  };
+  let game;
+  let attempt = 0;
+
+  do {
+    game = await createOrComandeerGame("TODO");
+  } while (game === null && ++attempt < CONFIG.MAX_NEW_GAME_TRIES);
+
+  if (game) {
+    return {
+      statusCode: 200,
+      body: JSON.stringify(game),
+    };
+  } else {
+    return {
+      statusCode: 420,
+      body: JSON.stringify({ error: "Could not create a new game. Please try again later." }),
+    };
+  }
 };
