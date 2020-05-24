@@ -22,8 +22,8 @@ describe("CONFIG", function() {
 
   describe("#TOKEN_NORMALIZER", function() {
     it("replaces upper-case values with lower-case", () => {
-      const actual = CONFIG.TOKEN_NORMALIZER("AGFHYLQ");
-      expect(actual).to.equal("agfhylq");
+      const actual = CONFIG.TOKEN_NORMALIZER("AGFHYQ");
+      expect(actual).to.equal("agfhyq");
     });
 
     it("strips out unexpected characters", () => {
@@ -32,8 +32,8 @@ describe("CONFIG", function() {
     });
 
     it("substitutes typo'd characters", () => {
-      const actual = CONFIG.TOKEN_NORMALIZER("vji2s");
-      expect(actual).to.equal("gayqx");
+      const actual = CONFIG.TOKEN_NORMALIZER("vji2sl");
+      expect(actual).to.equal("gayqx1");
     });
 
     it("substitutes typo'd upper-case characters", () => {
