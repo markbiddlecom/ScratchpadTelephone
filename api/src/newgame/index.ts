@@ -8,6 +8,7 @@ export default async function newGameHandler(event: APIGatewayProxyEvent): Promi
   let attempt = 0;
 
   do {
+    console.log(`Attempt ${attempt} to create new game...`);
     game = await createOrComandeerGame("TODO");
   } while (game === null && ++attempt < CONFIG.MAX_NEW_GAME_TRIES);
 
