@@ -4,7 +4,7 @@ Description: Handles the back-end for creating and joining games in the scratchp
 Globals:
   Api:
     Cors:
-      AllowOrigin: '*'
+      AllowOrigin: "'*'"
 Resources:
   ScratchpadTelepNewGameLambda:
     Type: AWS::Serverless::Function
