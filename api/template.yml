@@ -8,6 +8,7 @@ Resources:
       Handler: index.newGameHandler
       Runtime: nodejs12.x
       CodeUri: ./
+      Policies: arn:aws:iam::867596066550:policy/ScratchpadTelepGamesServicePolicy
       Events:
         ScratchpadTelepNewGameApi:
           Type: Api
