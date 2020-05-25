@@ -20,8 +20,6 @@ export function batchGetGames(tokens: string[]): Promise<GameDocument[]> {
       },
     };
 
-    console.log("Searching for games", request);
-
     DOC_CLIENT.batchGet(request, (err, data) => {
       if (err) {
         reject(err);
@@ -44,20 +42,20 @@ function putGame(
       TableName: TABLE_NAME,
       ConditionExpression: conditionExpression,
       ExpressionAttributeValues: expressionAttributes,
+      ExpressionAttributeNames: { "#t": COLUMN_NAME_TOKEN },
       Item: game,
     };
 
-    console.log("Writing game", request);
+    console.log("Writing game", JSON.stringify(request, null, 2));
 
     DOC_CLIENT.put(request, (err, data) => {
       if (err && err.name === "ConditionalCheckFailedException") {
         resolve(null);
       } else if (err) {
+        console.log("PutItem failed", err);
         reject(err);
-      } else if (!data || !data.Attributes) {
-        reject(new Error("Missing responses map!"));
       } else {
-        return <GameDocument> data.Attributes;
+        resolve(game);
       }
     });
   });
@@ -68,7 +66,7 @@ function putGame(
  * @param game the game to attempt creating.
  */
 export function createGame(game: GameDocument): Promise<GameDocument | null> {
-  return putGame(game, `attribute_not_exists(${COLUMN_NAME_TOKEN})`);
+  return putGame(game, "attribute_not_exists(#t)");
 }
 
 /**
@@ -79,5 +77,5 @@ export function createGame(game: GameDocument): Promise<GameDocument | null> {
  * @param expectedTimestamp the timestamp value that the DB's current record must have for the update to succeed.
  */
 export function updateGame(game: GameDocument, expectedTimestamp: number): Promise<GameDocument | null> {
-  return putGame(game, `${COLUMN_NAME_TIMESTAMP} = :timestamp`, { timestamp: expectedTimestamp });
+  return putGame(game, `#t = :timestamp`, { timestamp: expectedTimestamp });
 }
