@@ -5,10 +5,11 @@ import { GameId, State, GameData } from "./state";
 
 export enum AppActionType {
   NewGame = "APP_NEW_GAME",
-  RequestingGame = "REQUESTING_GAME",
-  NewGameCreated = "NEW_GAME_CREATED",
-  NewGameFailed = "NEW_GAME_FAILED",
   JoinGame = "APP_JOIN_GAME",
+  RequestingGame = "REQUESTING_GAME",
+  GameLoaded = "GAME_LOADED",
+  GameLoadFailed = "GAME_LOAD_FAILED",
+  RandomizeName = "RANDOMIZE_NAME",
 };
 
 export type StandardThunkAction<ReturnType = void> = ThunkAction<ReturnType, State, unknown, AnyAction>;
@@ -21,11 +22,11 @@ export function newGame(): NewGameAction {
     
     try {
       const gameData = await createGame();
-      dispatch(newGameCreated(gameData));
+      dispatch(gameLoaded(gameData));
     }
     catch (err) {
       console.error(err);
-      dispatch(newGameFailed(
+      dispatch(gameLoadFailed(
           "Sorry, we're having trouble kicking off a game right now. Check your internet connection or try again a "
               + "little later 🤞"));
     }
@@ -38,22 +39,22 @@ export function requestingGame(): RequestingGameAction {
   return { type: AppActionType.RequestingGame };
 };
 
-export interface NewGameCreatedAction extends Action, GameData {};
+export interface GameLoadedAction extends Action, GameData {};
 
-export function newGameCreated(gameData: GameData): NewGameCreatedAction {
+export function gameLoaded(gameData: GameData): GameLoadedAction {
   return {
-    type: AppActionType.NewGameCreated,
-    ...gameData
+    type: AppActionType.GameLoaded,
+    ...gameData,
   };
 };
 
-export interface NewGameFailedAction extends Action {
+export interface GameLoadFailedAction extends Action {
   errorMessage: string,
 };
 
-export function newGameFailed(errorMessage: string): NewGameFailedAction {
+export function gameLoadFailed(errorMessage: string): GameLoadFailedAction {
   return {
-    type: AppActionType.NewGameFailed,
+    type: AppActionType.GameLoadFailed,
     errorMessage,
   };
 };
@@ -64,3 +65,9 @@ export function joinGame(gameId: GameId): AnyAction {
     gameId: gameId,
    };
 };
+
+export type RandomizeNameAction = AnyAction;
+
+export function randomizeName(): RandomizeNameAction {
+  return { type: AppActionType.RandomizeName };
+}

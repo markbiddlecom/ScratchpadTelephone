@@ -44,9 +44,9 @@ export type Session = {
 export type Player = {
   name: string,
   id: PeerId,
-  avatar: any,
+  avatar: any | null,
   state: PlayerState,
-  pendingInspirationId: CardId,
+  pendingInspirationId: CardId | null,
 };
 
 export type Card = {
@@ -65,9 +65,14 @@ export type GameData = {
   syncUrl: string,
 };
 
+export type PlayerMap = {
+  [playerId: string]: Player;
+};
+
 export type Game = {
   data: GameData,
-  players: { [playerId: string]: Player },
+  localPlayerId: PeerId,
+  players: PlayerMap,
   cards: { [cardId: string]: Card },
 };
 

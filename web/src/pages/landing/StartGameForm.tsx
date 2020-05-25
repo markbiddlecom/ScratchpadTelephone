@@ -15,11 +15,16 @@ type OwnProps = {
   gridSpacing?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10,
 };
 
-type Props = OwnProps & {
+type StateProps = {
   appState: AppState,
+};
+
+type ActionProps = {
   newGame: () => void,
   joinGame: (gameId: GameId) => void,
 };
+
+type Props = OwnProps & StateProps & ActionProps;
 
 function StartGameForm({ gridSpacing, appState, newGame }: Props) {
   const connecting = appState === AppState.Connecting;
@@ -55,7 +60,7 @@ function StartGameForm({ gridSpacing, appState, newGame }: Props) {
 }
 
 export default connect(
-  function(state: State, ownProps: OwnProps) {
+  function(state: State, ownProps: OwnProps): OwnProps & StateProps {
     return {
       ...ownProps,
       appState: state.ui.appState,

@@ -1,0 +1,12 @@
+.Lobby {
+  button, .MuiFormControl-root { width: 100%; }
+
+  button.MuiIconButton-root {
+    padding: 0;
+    margin-top: -6px;
+    svg {
+      width: 52px;
+      height: 52px;
+    }
+  }
+}

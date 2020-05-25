@@ -7,6 +7,7 @@ import { State, AppState } from './store/state';
 
 import './App.scss';
 import 'typeface-roboto';
+import Lobby from './pages/lobby/Lobby';
 
 type Props = { appState: AppState };
 
@@ -15,6 +16,7 @@ function App({ appState }: Props) {
     <React.Fragment>
       <CssBaseline />
       {(appState === AppState.Landing || appState === AppState.Connecting) && (<LandingPage />)}
+      {appState === AppState.Lobby && (<Lobby />)}
     </React.Fragment>
   );
 }

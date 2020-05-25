@@ -4,19 +4,28 @@ import thunkMiddleware from "redux-thunk";
 
 import { AppActionType } from "./appActions";
 import INITIAL_STATE from "./initialState";
+import { gameLoadedUiReducer, gameLoadedGameReducer } from "./gameLoadedReducers";
 import makeSectionReducer from "./makeSectionReducer";
 import requestingGameReducer from "./requestingGameReducer";
 import sessionReducer from "./session";
+import { randomizeNameReducer } from "./lobbyReducers";
 import { State, Game, Session, UserInterface } from "./state";
 
 function appReducer(state: State | undefined = INITIAL_STATE, action: AnyAction): State {
   const ui: UserInterface = makeSectionReducer(
       INITIAL_STATE.ui,
       {
-        [AppActionType.RequestingGame]: requestingGameReducer
+        [AppActionType.RequestingGame]: requestingGameReducer,
+        [AppActionType.GameLoaded]: gameLoadedUiReducer,
       }
   )(state.ui, action);
-  const game: Game | undefined = state.game;
+  const game: Game | undefined = makeSectionReducer<Game | undefined>(
+      undefined,
+      {
+        [AppActionType.GameLoaded]: gameLoadedGameReducer,
+        [AppActionType.RandomizeName]: randomizeNameReducer,
+      }
+  )(state.game, action);
   const session: Session | undefined = sessionReducer(state.session, action);
 
   if (ui === state.ui && game === state.game && session === state.session) {
