@@ -59,9 +59,14 @@ export type Card = {
   content: string | any,
 };
 
-export type Game = {
-  id: GameId,
+export type GameData = {
+  token: string,
   timestamp: number,
+  syncUrl: string,
+};
+
+export type Game = {
+  data: GameData,
   players: { [playerId: string]: Player },
   cards: { [cardId: string]: Card },
 };

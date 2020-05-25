@@ -1,6 +1,10 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Handles the back-end for creating and joining games in the scratchpad telephone app.
+Globals:
+  Api:
+    Cors:
+      AllowOrigin: '*'
 Resources:
   ScratchpadTelepNewGameLambda:
     Type: AWS::Serverless::Function

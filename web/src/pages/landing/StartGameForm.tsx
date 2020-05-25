@@ -55,9 +55,9 @@ function StartGameForm({ gridSpacing, appState, newGame }: Props) {
 }
 
 export default connect(
-  function(state: State, ownState: OwnProps) {
+  function(state: State, ownProps: OwnProps) {
     return {
-      ...ownState,
+      ...ownProps,
       appState: state.ui.appState,
     };
   },
