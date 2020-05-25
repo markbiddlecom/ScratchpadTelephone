@@ -3,8 +3,6 @@ import { batchGetGames } from "../db";
 import CONFIG from "../config";
 
 export default async function findAvailableGame(tokens: string[]): Promise<[string, GameDocument | null] | null> {
-  console.log("Searching for avaialble games:", tokens);
-
   const games: Map<string, GameDocument> = 
       (await batchGetGames(tokens))
           .reduce(

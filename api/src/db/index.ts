@@ -20,6 +20,8 @@ export function batchGetGames(tokens: string[]): Promise<GameDocument[]> {
       },
     };
 
+    console.log("Searching for games", request);
+
     DOC_CLIENT.batchGet(request, (err, data) => {
       if (err) {
         reject(err);
@@ -44,6 +46,8 @@ function putGame(
       ExpressionAttributeValues: expressionAttributes,
       Item: game,
     };
+
+    console.log("Writing game", request);
 
     DOC_CLIENT.put(request, (err, data) => {
       if (err && err.name === "ConditionalCheckFailedException") {
