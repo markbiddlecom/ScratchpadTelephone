@@ -43,6 +43,28 @@
         font-size: 12px;
         font-weight: 400;
       }
+
+      .Controls {
+        position: absolute;
+        left: 16px;
+        top: 16px;
+
+        max-width: 100%;
+
+        div.MuiToggleButtonGroup-root {
+          margin-right: 8px;
+          margin-bottom: 8px;
+          
+          button {
+            padding: 6px;
+
+            svg { 
+              width: 14px; 
+              height: 14px; 
+            }
+          }
+        }
+      }
     }
   }
 

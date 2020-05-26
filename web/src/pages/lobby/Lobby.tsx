@@ -3,9 +3,13 @@ import IconButton from "@material-ui/core/IconButton";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 import { Typography } from "@material-ui/core";
-import AssignmentIcon from '@material-ui/icons/AssignmentOutlined';
-import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
-import CasinoIcon from '@material-ui/icons/Casino';
+import AssignmentIcon from "@material-ui/icons/AssignmentOutlined";
+import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
+import CasinoIcon from "@material-ui/icons/Casino";
+import DeleteIcon from '@material-ui/icons/Delete';
+import UndoIcon from '@material-ui/icons/Undo';
+import ToggleButton from "@material-ui/lab/ToggleButton";
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
 import classnames from "classnames";
 import React from "react";
 import CanvasDraw from "react-canvas-draw";
@@ -34,6 +38,12 @@ type ComponentState = {
   showingCheckbox: boolean,
   checkboxShown: boolean,
 };
+
+function SvgCircle({ radius = 12, fill }: { radius?: number, fill?: string }) {
+  return (<svg viewBox="0 0 24 24">
+    <circle cx={12} cy={12} r={radius} fill={fill} />
+  </svg>);
+}
 
 class Lobby extends React.Component<Props, ComponentState> {
   constructor(props: Props) {
@@ -213,11 +223,25 @@ class Lobby extends React.Component<Props, ComponentState> {
         ref={this.canvasContainerRef} 
         className="CanvasContainer MuiOutlinedInput-root MuiOutlinedInput-notchedOutline"
       >
+        {canvas}
         <div className="Label">Draw yourself!</div>
         <div className="Controls">
-          
+          <ToggleButtonGroup className="PenSizeButtons">
+            <ToggleButton><SvgCircle /></ToggleButton>
+            <ToggleButton><SvgCircle radius={8} /></ToggleButton>
+          </ToggleButtonGroup>
+          <ToggleButtonGroup className="PenColorButtons">
+            <ToggleButton><SvgCircle fill="#000000" /></ToggleButton>
+            <ToggleButton><SvgCircle fill="#00ff00" /></ToggleButton>
+            <ToggleButton><SvgCircle fill="#ff0000" /></ToggleButton>
+            <ToggleButton><SvgCircle fill="#11b1ff" /></ToggleButton>
+            <ToggleButton><SvgCircle fill="#ffff00" /></ToggleButton>
+          </ToggleButtonGroup>
+          <ToggleButtonGroup>
+            <ToggleButton><UndoIcon /></ToggleButton>
+            <ToggleButton><DeleteIcon /></ToggleButton>
+          </ToggleButtonGroup>
         </div>
-        {canvas}
       </div>
     );
   }
