@@ -1,19 +1,20 @@
 import Grid from "@material-ui/core/Grid";
+import IconButton from "@material-ui/core/IconButton";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
-import IconButton from "@material-ui/core/IconButton";
+import { Typography } from "@material-ui/core";
 import AssignmentIcon from '@material-ui/icons/AssignmentOutlined';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import CasinoIcon from '@material-ui/icons/Casino';
 import classnames from "classnames";
 import React from "react";
+import CanvasDraw from "react-canvas-draw";
 import { connect } from "react-redux";
 
 import { State } from "../../store/state";
 import { changePlayerName, randomizePlayerName } from "../../store/appActions";
 
 import "./Lobby.scss";
-import { Typography } from "@material-ui/core";
 
 type StateProps = {
   gameToken: string,
@@ -28,6 +29,7 @@ type ActionProps = {
 type Props = StateProps & ActionProps;
 
 type ComponentState = {
+  canvasWidth: number | null,
   dieRolling: boolean,
   showingCheckbox: boolean,
   checkboxShown: boolean,
@@ -37,6 +39,7 @@ class Lobby extends React.Component<Props, ComponentState> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      canvasWidth: null,
       dieRolling: false,
       showingCheckbox: false,
       checkboxShown: false,
@@ -45,10 +48,22 @@ class Lobby extends React.Component<Props, ComponentState> {
     this.handleCopy = this.handleCopy.bind(this);
     this.handleRandomize = this.handleRandomize.bind(this);
     this.handleRandomizeAnimationEnd = this.handleRandomizeAnimationEnd.bind(this);
+    this.handleResize = this.handleResize.bind(this);
   }
 
   private gameTokenRef = React.createRef<HTMLInputElement>();
+  private canvasContainerRef = React.createRef<HTMLDivElement>();
+
   private timeoutHandle: number | null = null;
+
+  componentDidMount() {
+    window.addEventListener("onresize", this.handleResize);
+    this.handleResize();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("onresize", this.handleResize);
+  }
 
   render() {
     return (
@@ -57,7 +72,7 @@ class Lobby extends React.Component<Props, ComponentState> {
           {this.renderGameInfo()}
         </Grid>
         <Grid item xs={12} md={7}>
-          {this.renderName()}
+          {this.renderPlayerSection()}
         </Grid>
       </Grid>
     );
@@ -83,7 +98,13 @@ class Lobby extends React.Component<Props, ComponentState> {
 
       this.setState({ showingCheckbox: true, checkboxShown: true });
       this.timeoutHandle = 
-          window.setTimeout(() => this.setState({ showingCheckbox: false }), 1000);
+          window.setTimeout(
+              () => {
+                this.setState({ showingCheckbox: false });
+                this.timeoutHandle = null;
+              },
+              1000
+          );
     }
   }
 
@@ -96,11 +117,19 @@ class Lobby extends React.Component<Props, ComponentState> {
     this.setState({ dieRolling: false });
   }
 
+  private handleResize() {
+    if (this.canvasContainerRef.current) {
+      this.setState({
+        canvasWidth: this.canvasContainerRef.current.offsetWidth - 6 * 4,
+      });
+    }
+  }
+
   private renderGameInfo() {
     return (
       <Paper className="GameInfoSection">
         <Grid container spacing={2}>
-          <Grid item xs={11}>
+          <Grid item xs={10} sm={11}>
             <input 
               readOnly 
               className="GameToken MuiInputBase-input" 
@@ -108,7 +137,7 @@ class Lobby extends React.Component<Props, ComponentState> {
               ref={this.gameTokenRef}
             />
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={2} sm={1}>
             <IconButton
               color="secondary"
               title="Copy"
@@ -131,7 +160,8 @@ class Lobby extends React.Component<Props, ComponentState> {
           <Grid item xs={12}>
             <Typography variant="caption" className="Caption">
               This is your unique, hand-delivered game code. Send it to your friends and tell them
-              to join, or click the <AssignmentIcon /> button to copy the whole address to your clipboard.
+              to join, or click the <AssignmentIcon aria-label="copy" /> button to copy the whole address to your 
+              clipboard.
             </Typography>
           </Grid>
         </Grid>
@@ -139,11 +169,11 @@ class Lobby extends React.Component<Props, ComponentState> {
     );
   }
 
-  private renderName() {
+  private renderPlayerSection() {
     return (
-      <Paper className="PlayerNameSection">
+      <Paper className="PlayerSection">
         <Grid container spacing={2}>
-          <Grid item xs={11}>
+          <Grid item xs={12} className="PlayerRow">
             <TextField 
               label="Player Name"
               variant="outlined"
@@ -151,8 +181,6 @@ class Lobby extends React.Component<Props, ComponentState> {
               value={this.props.playerName}
               onChange={e => this.props.changePlayerName(e.target.value)}
             />
-          </Grid>
-          <Grid item xs={1}>
             <IconButton 
               color="secondary"
               title="Randomize"
@@ -162,10 +190,37 @@ class Lobby extends React.Component<Props, ComponentState> {
               data-rolling={this.state.dieRolling ? 1 : 0}
             ><CasinoIcon /></IconButton>
           </Grid>
+          <Grid item xs={12}>
+            {this.renderCanvas()}
+          </Grid>
         </Grid>
       </Paper>
     );
   }
+
+  private renderCanvas() {
+    const canvas = 
+        this.state.canvasWidth &&
+        (<CanvasDraw 
+          className="Canvas" 
+          hideGrid 
+          canvasWidth={this.state.canvasWidth} 
+          canvasHeight={this.state.canvasWidth}
+        />);
+
+    return (
+      <div 
+        ref={this.canvasContainerRef} 
+        className="CanvasContainer MuiOutlinedInput-root MuiOutlinedInput-notchedOutline"
+      >
+        <div className="Controls">
+          Draw yourself!
+        </div>
+        {canvas}
+      </div>
+    );
+  }
+
 }
 
 export default connect(

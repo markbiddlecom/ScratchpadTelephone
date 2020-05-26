@@ -1,7 +1,5 @@
 .Lobby {
 
-  button, .MuiFormControl-root { width: 100%; }
-
   button.MuiIconButton-root {
     padding: 0;
     margin-top: -6px;
@@ -11,9 +9,28 @@
     }
   }
 
-  .PlayerNameSection {
-    button[data-rolling='1'] svg {
-      animation: 0.25s ease-in-out 1 rolling;
+  .PlayerSection {
+    .PlayerRow {
+      display: flex;
+
+      .MuiFormControl-root {
+        width: 100%;
+      }
+
+      button {
+        margin-left: 8px;
+        margin-right: -8px; // to get rid of padding _within_ the icons 😭
+
+        &[data-rolling='1'] svg {
+          animation: 0.25s ease-in-out 1 rolling;
+        }
+      }
+    }
+    
+    .CanvasContainer {
+      padding: 8px;
+      border-style: solid;
+      border-width: 1px;
     }
   }
 
@@ -70,7 +87,7 @@
 }
 
 @keyframes rolling {
-  100% { transform: rotate(180deg); }
+  100% { transform: rotate(-180deg); }
 }
 
 @keyframes shiftAway {
