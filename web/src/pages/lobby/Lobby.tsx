@@ -57,12 +57,12 @@ class Lobby extends React.Component<Props, ComponentState> {
   private timeoutHandle: number | null = null;
 
   componentDidMount() {
-    window.addEventListener("onresize", this.handleResize);
+    window.addEventListener("resize", this.handleResize);
     this.handleResize();
   }
 
   componentWillUnmount() {
-    window.removeEventListener("onresize", this.handleResize);
+    window.removeEventListener("resize", this.handleResize);
   }
 
   render() {
@@ -129,15 +129,13 @@ class Lobby extends React.Component<Props, ComponentState> {
     return (
       <Paper className="GameInfoSection">
         <Grid container spacing={2}>
-          <Grid item xs={10} sm={11}>
+          <Grid item xs={12} className="TokenRow">
             <input 
               readOnly 
               className="GameToken MuiInputBase-input" 
               value={this.props.gameToken} 
               ref={this.gameTokenRef}
             />
-          </Grid>
-          <Grid item xs={2} sm={1}>
             <IconButton
               color="secondary"
               title="Copy"
@@ -160,8 +158,8 @@ class Lobby extends React.Component<Props, ComponentState> {
           <Grid item xs={12}>
             <Typography variant="caption" className="Caption">
               This is your unique, hand-delivered game code. Send it to your friends and tell them
-              to join, or click the <AssignmentIcon aria-label="copy" /> button to copy the whole address to your 
-              clipboard.
+              to join, or click the <span className="IconContainer"><AssignmentIcon aria-label="copy" /></span> button 
+              to copy the whole address to your clipboard.
             </Typography>
           </Grid>
         </Grid>
@@ -204,6 +202,8 @@ class Lobby extends React.Component<Props, ComponentState> {
         (<CanvasDraw 
           className="Canvas" 
           hideGrid 
+          lazyRadius={0}
+          brushRadius={4}
           canvasWidth={this.state.canvasWidth} 
           canvasHeight={this.state.canvasWidth}
         />);
@@ -213,8 +213,9 @@ class Lobby extends React.Component<Props, ComponentState> {
         ref={this.canvasContainerRef} 
         className="CanvasContainer MuiOutlinedInput-root MuiOutlinedInput-notchedOutline"
       >
+        <div className="Label">Draw yourself!</div>
         <div className="Controls">
-          Draw yourself!
+          
         </div>
         {canvas}
       </div>
