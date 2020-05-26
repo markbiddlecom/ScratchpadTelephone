@@ -8,7 +8,7 @@ import { gameLoadedUiReducer, gameLoadedGameReducer } from "./gameLoadedReducers
 import makeSectionReducer from "./makeSectionReducer";
 import requestingGameReducer from "./requestingGameReducer";
 import sessionReducer from "./session";
-import { randomizeNameReducer } from "./lobbyReducers";
+import { randomizePlayerNameReducer, changePlayerNameReducer } from "./lobbyReducers";
 import { State, Game, Session, UserInterface } from "./state";
 
 function appReducer(state: State | undefined = INITIAL_STATE, action: AnyAction): State {
@@ -23,7 +23,8 @@ function appReducer(state: State | undefined = INITIAL_STATE, action: AnyAction)
       undefined,
       {
         [AppActionType.GameLoaded]: gameLoadedGameReducer,
-        [AppActionType.RandomizeName]: randomizeNameReducer,
+        [AppActionType.RandomizePlayerName]: randomizePlayerNameReducer,
+        [AppActionType.ChangePlayerName]: changePlayerNameReducer,
       }
   )(state.game, action);
   const session: Session | undefined = sessionReducer(state.session, action);

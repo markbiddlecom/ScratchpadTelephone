@@ -1,4 +1,5 @@
 .Lobby {
+
   button, .MuiFormControl-root { width: 100%; }
 
   button.MuiIconButton-root {
@@ -8,5 +9,84 @@
       width: 52px;
       height: 52px;
     }
+  }
+
+  .PlayerNameSection {
+    button[data-rolling='1'] svg {
+      animation: 0.25s ease-in-out 1 rolling;
+    }
+  }
+
+  .GameInfoSection {
+    input.GameToken {
+      width: 100%;
+      border: none;
+      text-align: center;
+      font-size: 33px;
+      font-weight: bold;
+    }
+    .Caption {
+      position: relative;
+      svg {
+        width: 18px;
+        fill: #888;
+        top: 7px;
+        position: relative;
+      }
+    }
+    button {
+      position: relative;
+      svg {
+        position: absolute;
+        top: -6px;
+
+        &.Copy.disappear {
+          animation: 0.2s ease-out 1 shiftAway;
+          animation-fill-mode: forwards;
+        }
+
+        &.Copy.appear {
+          animation: 0.2s ease-out 1 shiftIn;
+          animation-fill-mode: forwards;
+        }
+
+        &.Checkbox {
+          fill: #4caf50;
+          
+          &.appear {
+            animation: 0.2s ease-out 1 shiftIn;
+            animation-fill-mode: forwards;
+          }
+
+          &.disappear {
+            animation: 0.2s ease-out 1 shiftAway;
+            animation-fill-mode: forwards;
+          }
+        }
+      }
+    }
+  }
+
+}
+
+@keyframes rolling {
+  100% { transform: rotate(180deg); }
+}
+
+@keyframes shiftAway {
+  100% {
+    opacity: 0;
+    transform: translateX(-25px) scaleX(0);
+  }
+}
+
+@keyframes shiftIn {
+  0% {
+    opacity: 0;
+    transform: translateX(25px) scaleX(0);
+  }
+  100% {
+    opacity: 100;
+    transform: translateX(0) scaleX(1);
   }
 }

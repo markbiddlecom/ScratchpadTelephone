@@ -9,7 +9,8 @@ export enum AppActionType {
   RequestingGame = "REQUESTING_GAME",
   GameLoaded = "GAME_LOADED",
   GameLoadFailed = "GAME_LOAD_FAILED",
-  RandomizeName = "RANDOMIZE_NAME",
+  RandomizePlayerName = "RANDOMIZE_PLAYER_NAME",
+  ChangePlayerName = "CHANGE_PLAYER_NAME",
 };
 
 export type StandardThunkAction<ReturnType = void> = ThunkAction<ReturnType, State, unknown, AnyAction>;
@@ -66,8 +67,19 @@ export function joinGame(gameId: GameId): AnyAction {
    };
 };
 
-export type RandomizeNameAction = AnyAction;
+export type RandomizePlayerNameAction = AnyAction;
 
-export function randomizeName(): RandomizeNameAction {
-  return { type: AppActionType.RandomizeName };
+export function randomizePlayerName(): RandomizePlayerNameAction {
+  return { type: AppActionType.RandomizePlayerName };
+}
+
+export type ChangePlayerNameAction = AnyAction & {
+  name: string,
+}
+
+export function changePlayerName(name: string): ChangePlayerNameAction {
+  return {
+    type: AppActionType.ChangePlayerName,
+    name: name,
+  };
 }
