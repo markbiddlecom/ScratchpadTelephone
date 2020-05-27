@@ -6,19 +6,15 @@ import { Typography } from "@material-ui/core";
 import AssignmentIcon from "@material-ui/icons/AssignmentOutlined";
 import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
 import CasinoIcon from "@material-ui/icons/Casino";
-import DeleteIcon from '@material-ui/icons/Delete';
-import UndoIcon from '@material-ui/icons/Undo';
-import ToggleButton from "@material-ui/lab/ToggleButton";
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
 import classnames from "classnames";
 import React from "react";
-import CanvasDraw from "react-canvas-draw";
 import { connect } from "react-redux";
 
 import { State } from "../../store/state";
 import { changePlayerName, randomizePlayerName } from "../../store/appActions";
 
 import "./Lobby.scss";
+import DrawingCanvas from "../../canvas";
 
 type StateProps = {
   gameToken: string,
@@ -33,23 +29,15 @@ type ActionProps = {
 type Props = StateProps & ActionProps;
 
 type ComponentState = {
-  canvasWidth: number | null,
   dieRolling: boolean,
   showingCheckbox: boolean,
   checkboxShown: boolean,
 };
 
-function SvgCircle({ radius = 12, fill }: { radius?: number, fill?: string }) {
-  return (<svg viewBox="0 0 24 24">
-    <circle cx={12} cy={12} r={radius} fill={fill} />
-  </svg>);
-}
-
 class Lobby extends React.Component<Props, ComponentState> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      canvasWidth: null,
       dieRolling: false,
       showingCheckbox: false,
       checkboxShown: false,
@@ -58,22 +46,10 @@ class Lobby extends React.Component<Props, ComponentState> {
     this.handleCopy = this.handleCopy.bind(this);
     this.handleRandomize = this.handleRandomize.bind(this);
     this.handleRandomizeAnimationEnd = this.handleRandomizeAnimationEnd.bind(this);
-    this.handleResize = this.handleResize.bind(this);
   }
 
   private gameTokenRef = React.createRef<HTMLInputElement>();
-  private canvasContainerRef = React.createRef<HTMLDivElement>();
-
   private timeoutHandle: number | null = null;
-
-  componentDidMount() {
-    window.addEventListener("resize", this.handleResize);
-    this.handleResize();
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.handleResize);
-  }
 
   render() {
     return (
@@ -125,14 +101,6 @@ class Lobby extends React.Component<Props, ComponentState> {
 
   private handleRandomizeAnimationEnd() {
     this.setState({ dieRolling: false });
-  }
-
-  private handleResize() {
-    if (this.canvasContainerRef.current) {
-      this.setState({
-        canvasWidth: this.canvasContainerRef.current.offsetWidth - 6 * 4,
-      });
-    }
   }
 
   private renderGameInfo() {
@@ -199,50 +167,10 @@ class Lobby extends React.Component<Props, ComponentState> {
             ><CasinoIcon /></IconButton>
           </Grid>
           <Grid item xs={12}>
-            {this.renderCanvas()}
+            <DrawingCanvas label="Draw yourself!" />
           </Grid>
         </Grid>
       </Paper>
-    );
-  }
-
-  private renderCanvas() {
-    const canvas = 
-        this.state.canvasWidth &&
-        (<CanvasDraw 
-          className="Canvas" 
-          hideGrid 
-          lazyRadius={0}
-          brushRadius={4}
-          canvasWidth={this.state.canvasWidth} 
-          canvasHeight={this.state.canvasWidth}
-        />);
-
-    return (
-      <div 
-        ref={this.canvasContainerRef} 
-        className="CanvasContainer MuiOutlinedInput-root MuiOutlinedInput-notchedOutline"
-      >
-        {canvas}
-        <div className="Label">Draw yourself!</div>
-        <div className="Controls">
-          <ToggleButtonGroup className="PenSizeButtons">
-            <ToggleButton><SvgCircle /></ToggleButton>
-            <ToggleButton><SvgCircle radius={8} /></ToggleButton>
-          </ToggleButtonGroup>
-          <ToggleButtonGroup className="PenColorButtons">
-            <ToggleButton><SvgCircle fill="#000000" /></ToggleButton>
-            <ToggleButton><SvgCircle fill="#00ff00" /></ToggleButton>
-            <ToggleButton><SvgCircle fill="#ff0000" /></ToggleButton>
-            <ToggleButton><SvgCircle fill="#11b1ff" /></ToggleButton>
-            <ToggleButton><SvgCircle fill="#ffff00" /></ToggleButton>
-          </ToggleButtonGroup>
-          <ToggleButtonGroup>
-            <ToggleButton><UndoIcon /></ToggleButton>
-            <ToggleButton><DeleteIcon /></ToggleButton>
-          </ToggleButtonGroup>
-        </div>
-      </div>
     );
   }
 
