@@ -8,7 +8,6 @@ Globals:
   Function:
     Runtime: nodejs12.x
     CodeUri: ./
-    Policies: arn:aws:iam::867596066550:policy/ScratchpadTelepGamesServicePolicy
 Resources:
   ScratchpadTelepNewGameLambda:
     Type: AWS::Serverless::Function
@@ -25,6 +24,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.joinGameHandler
+      Policies: arn:aws:iam::867596066550:policy/ScratchpadTelepGamesServicePolicy
       Events:
         Type: Api
         Properties:
