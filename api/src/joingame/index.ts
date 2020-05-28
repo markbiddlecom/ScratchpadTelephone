@@ -14,10 +14,12 @@ export default async function joinGameHandler(event: APIGatewayProxyEvent): Prom
 
   try {
     const game = await getGame(token);
+    const hasGame = game && game.timestamp >= (new Date()).valueOf() - CONFIG.GAME_TIMEOUT_MS;
+
     return {
       ...commonResponse,
-      statusCode: game ? 200 : 404,
-      body: game ? JSON.stringify(game) : "",
+      statusCode: hasGame ? 200 : 404,
+      body: hasGame ? JSON.stringify(game) : "",
     };
   } catch(e) {
     console.error("Failed to load game.", e);
