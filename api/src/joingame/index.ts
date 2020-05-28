@@ -1,6 +1,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
-import CONFIG from "../config";
+
 import { getGame } from "../db";
+import CONFIG from "../config";
 
 export default async function joinGameHandler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
   const token = CONFIG.TOKEN_NORMALIZER(event.pathParameters?.token || "");
