@@ -26,7 +26,8 @@ Resources:
       Handler: index.joinGameHandler
       Policies: arn:aws:iam::867596066550:policy/ScratchpadTelepGamesServicePolicy
       Events:
-        Type: Api
-        Properties:
-          Path: /games/{token}
-          Method: GET
+        ScratchpadTelepJoinGameApi:
+          Type: Api
+          Properties:
+            Path: /games/{token}
+            Method: GET
