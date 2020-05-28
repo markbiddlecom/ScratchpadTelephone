@@ -1,16 +1,17 @@
 import { Action, AnyAction } from "redux";
 import { ThunkAction } from "redux-thunk";
-import { createGame } from "../api/createGame";
+import { createGame as createGameApi } from "../api/createGame";
+import { joinGame as joinGameApi } from "../api/joinGame";
 import { GameId, State, GameData } from "./state";
 
 export enum AppActionType {
   NewGame = "APP_NEW_GAME",
   JoinGame = "APP_JOIN_GAME",
-  RequestingGame = "REQUESTING_GAME",
-  GameLoaded = "GAME_LOADED",
-  GameLoadFailed = "GAME_LOAD_FAILED",
-  RandomizePlayerName = "RANDOMIZE_PLAYER_NAME",
-  ChangePlayerName = "CHANGE_PLAYER_NAME",
+  RequestingGame = "APP_REQUESTING_GAME",
+  GameLoaded = "APP_GAME_LOADED",
+  GameLoadFailed = "APP_GAME_LOAD_FAILED",
+  RandomizePlayerName = "LOBBY_RANDOMIZE_PLAYER_NAME",
+  ChangePlayerName = "LOBBY_CHANGE_PLAYER_NAME",
 };
 
 export type StandardThunkAction<ReturnType = void> = ThunkAction<ReturnType, State, unknown, AnyAction>;
@@ -22,10 +23,9 @@ export function newGame(): NewGameAction {
     dispatch(requestingGame());
     
     try {
-      const gameData = await createGame();
+      const gameData = await createGameApi();
       dispatch(gameLoaded(gameData));
-    }
-    catch (err) {
+    } catch (err) {
       console.error(err);
       dispatch(gameLoadFailed(
           "Sorry, we're having trouble kicking off a game right now. Check your internet connection or try again a "
@@ -33,6 +33,23 @@ export function newGame(): NewGameAction {
     }
   };
 };
+
+export type JoinGameAction = StandardThunkAction;
+
+export function joinGame(token: GameId): JoinGameAction {
+  return async function(dispatch): Promise<void> {
+    dispatch(requestingGame());
+
+    try {
+      const gameData = await(joinGameApi(token));
+      dispatch(gameLoaded(gameData));
+    } catch (err) {
+      console.error(err);
+      dispatch(gameLoadFailed(
+        "Sorry, we couldn't join that game. Make sure you got the ID right and try again 🤞?"));
+    }
+  };
+}
 
 export type RequestingGameAction = AnyAction;
 
@@ -58,13 +75,6 @@ export function gameLoadFailed(errorMessage: string): GameLoadFailedAction {
     type: AppActionType.GameLoadFailed,
     errorMessage,
   };
-};
-
-export function joinGame(gameId: GameId): AnyAction {
-  return {
-    type: AppActionType.JoinGame,
-    gameId: gameId,
-   };
 };
 
 export type RandomizePlayerNameAction = AnyAction;

@@ -16,6 +16,10 @@ export default async function joinGameHandler(event: APIGatewayProxyEvent): Prom
     const game = await getGame(token);
     const hasGame = game && game.timestamp >= (new Date()).valueOf() - CONFIG.GAME_TIMEOUT_MS;
 
+    if (game) {
+      game.token = CONFIG.TOKEN_FORMATTER(game.token);
+    }
+
     return {
       ...commonResponse,
       statusCode: hasGame ? 200 : 404,

@@ -3,7 +3,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import React from "react";
+import React, { useRef } from "react";
 import { connect } from "react-redux";
 
 import { newGame, joinGame } from "../../store/appActions";
@@ -21,12 +21,15 @@ type StateProps = {
 
 type ActionProps = {
   newGame: () => void,
-  joinGame: (gameId: GameId) => void,
+  joinGame: (token: GameId) => void,
 };
 
 type Props = OwnProps & StateProps & ActionProps;
 
-function StartGameForm({ gridSpacing, appState, newGame }: Props) {
+function StartGameForm({ gridSpacing, appState, newGame, joinGame }: Props) {
+  const gameToken = useRef<HTMLInputElement>(null);
+  const onJoinGameClick = () => gameToken.current && joinGame(gameToken.current.value);
+
   const connecting = appState === AppState.Connecting;
   const icon =
     connecting
@@ -47,10 +50,11 @@ function StartGameForm({ gridSpacing, appState, newGame }: Props) {
           helperText="Ask your game leader!"
           variant="outlined"
           size="small"
-          disabled={connecting} />
+          disabled={connecting}
+          inputRef={gameToken} />
       </Grid>
       <Grid item xs={5}>
-        <Button variant="contained" color="secondary" disabled={connecting}>
+        <Button variant="contained" color="secondary" disabled={connecting} onClick={onJoinGameClick}>
           Join Game
         </Button>
       </Grid>

@@ -72,7 +72,7 @@ class Lobby extends React.Component<Props, ComponentState> {
         this.timeoutHandle = null;
       }
 
-      tokenInput.value = `http://draw.brotherhoodgames.com/${this.props.gameToken}`;
+      tokenInput.value = `http://draw.brotherhoodgames.com/?${this.props.gameToken}`;
 
       tokenInput.select();
       tokenInput.setSelectionRange(0, tokenInput.value.length);
