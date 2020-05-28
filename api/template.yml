@@ -5,13 +5,15 @@ Globals:
   Api:
     Cors:
       AllowOrigin: "'*'"
+  Function:
+    Runtime: nodejs12.x
+    CodeUri: ./
+    Policies: arn:aws:iam::867596066550:policy/ScratchpadTelepGamesServicePolicy
 Resources:
   ScratchpadTelepNewGameLambda:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.newGameHandler
-      Runtime: nodejs12.x
-      CodeUri: ./
       Policies: arn:aws:iam::867596066550:policy/ScratchpadTelepGamesServicePolicy
       Events:
         ScratchpadTelepNewGameApi:
@@ -19,3 +21,12 @@ Resources:
           Properties:
             Path: /games
             Method: POST
+  ScratchpadTelepJoinGameLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.joinGameHandler
+      Events:
+        Type: Api
+        Properties:
+          Path: /games/{token}
+          Method: GET

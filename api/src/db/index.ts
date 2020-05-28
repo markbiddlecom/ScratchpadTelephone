@@ -15,7 +15,6 @@ export function batchGetGames(tokens: string[]): Promise<GameDocument[]> {
       RequestItems: {
         [TABLE_NAME]: {
           Keys: tokens.map(token => ({ [COLUMN_NAME_TOKEN]: token })),
-          ConsistentRead: true,
         },
       },
     };
@@ -32,9 +31,30 @@ export function batchGetGames(tokens: string[]): Promise<GameDocument[]> {
   });
 };
 
+export function getGame(token: string): Promise<GameDocument | null> {
+  return new Promise<GameDocument | null>((resolve, reject) => {
+    const request: DynamoDB.DocumentClient.GetItemInput = {
+      TableName: TABLE_NAME,
+      Key: { [COLUMN_NAME_TOKEN]: token },
+      ConsistentRead: true,
+    };
+
+    DOC_CLIENT.get(request, (err, data) => {
+      if (err) {
+        console.log("GetItem failed", err);
+        reject(err);
+      } else if (data?.Item) {
+        resolve(<GameDocument> data.Item);
+      } else {
+        resolve(null);
+      }
+    });
+  });
+}
+
 function putGame(
-    game: GameDocument, 
-    conditionExpression: string, 
+    game: GameDocument,
+    conditionExpression: string,
     expressionAttributes: any | undefined = undefined
 ): Promise<GameDocument | null> {
   return new Promise((resolve, reject) => {
@@ -72,7 +92,7 @@ export function createGame(game: GameDocument): Promise<GameDocument | null> {
 /**
  * Attempts to update an existing game record. The update fails (and this method returns null) if the existing record in
  * the DB does not have the given timestamp at the time of the update.
- * 
+ *
  * @param game the game to update
  * @param expectedTimestamp the timestamp value that the DB's current record must have for the update to succeed.
  */
