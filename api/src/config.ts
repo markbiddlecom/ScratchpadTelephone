@@ -53,7 +53,7 @@ export interface Config {
 
 const TOKEN_CHARS: { [char: string]: string } = Object.freeze({
   'a': 'kj',
-  'g': 'bcdeptvwz3',
+  'g': 'bcdeptvz3',
   'f': '',
   'h': '',
   'y': 'i',

@@ -40,5 +40,10 @@ describe("CONFIG", function() {
       const actual = CONFIG.TOKEN_NORMALIZER("V");
       expect(actual).to.equal("g");
     });
+
+    it("preserves characters that can't be typo'd", () => {
+      const actual = CONFIG.TOKEN_NORMALIZER("fhrw456789");
+      expect(actual).to.equal("fhrw456789");
+    });
   });
 });
