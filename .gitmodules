@@ -1,0 +1,3 @@
+[submodule "react-canvas-draw"]
+	path = react-canvas-draw
+	url = https://github.com/markbiddlecom/react-canvas-draw
