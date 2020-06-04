@@ -19,8 +19,8 @@ const MIN_BRUSH_SIZE = BRUSH_SIZES.reduce((r, v) => (v < r ? v : r), BRUSH_SIZES
 const MAX_BRUSH_SIZE = BRUSH_SIZES.reduce((r, v) => (v > r ? v : r), BRUSH_SIZES[0]);
 
 function brushRenderSize(brushSize: number): number {
-  return MIN_BRUSH_RENDER_SIZE 
-      + ((brushSize - MIN_BRUSH_SIZE) / (MAX_BRUSH_SIZE - MIN_BRUSH_SIZE)) 
+  return MIN_BRUSH_RENDER_SIZE
+      + ((brushSize - MIN_BRUSH_SIZE) / (MAX_BRUSH_SIZE - MIN_BRUSH_SIZE))
       * (MAX_BRUSH_RENDER_SIZE - MIN_BRUSH_RENDER_SIZE);
 }
 
@@ -62,7 +62,7 @@ export default class DrawingCanvas extends React.Component<Props, State> {
     this.handleResize = this.handleResize.bind(this);
     this.handleUndo = this.handleUndo.bind(this);
     this.handleClear = this.handleClear.bind(this);
-    this.handleBrushSizeHandlers = 
+    this.handleBrushSizeHandlers =
         BRUSH_SIZES
             .reduce((map: BrushSizeHandlerMap, size: number) => {
               map[size] = this.handleBrushSizeClick.bind(this, size);
@@ -93,7 +93,7 @@ export default class DrawingCanvas extends React.Component<Props, State> {
 
   render() {
     return (
-      <div 
+      <div
         className="DrawingCanvas MuiOutlinedInput-root MuiOutlinedInput-notchedOutline"
         ref={this.containerRef}
       >
@@ -129,7 +129,7 @@ export default class DrawingCanvas extends React.Component<Props, State> {
   }
 
   private renderLabel() {
-    return (<div className="Label">{this.props.label}</div>); 
+    return (<div className="Label">{this.props.label}</div>);
   }
 
   private renderControls() {
@@ -137,8 +137,8 @@ export default class DrawingCanvas extends React.Component<Props, State> {
       <ToggleButtonGroup value={this.state.brushSize} className="PenSizeButtons">
         {
           BRUSH_SIZES.map(size => (
-            <ToggleButton 
-              key={size} 
+            <ToggleButton
+              key={size}
               value={size}
               onClick={this.handleBrushSizeHandlers[size]}
             >
@@ -150,8 +150,8 @@ export default class DrawingCanvas extends React.Component<Props, State> {
       <ToggleButtonGroup value={this.state.brushColor} className="PenColorButtons">
         {
           COLORS.map(color => (
-            <ToggleButton 
-              key={color} 
+            <ToggleButton
+              key={color}
               value={color}
               onClick={this.handleBrushColorHandlers[color]}
             >
@@ -172,14 +172,16 @@ export default class DrawingCanvas extends React.Component<Props, State> {
       return null;
     }
 
-    return (<CanvasDraw 
+    return (<CanvasDraw
       ref={this.canvasRef}
       className="Canvas"
-      hideGrid 
+      hideGrid
       lazyRadius={0}
+      enablePanAndZoom
+      clampLinesToDocument
       brushRadius={this.state.brushSize}
       brushColor={this.state.brushColor}
-      canvasWidth={this.state.canvasWidth} 
+      canvasWidth={this.state.canvasWidth}
       canvasHeight={this.state.canvasWidth}
     />);
   }
