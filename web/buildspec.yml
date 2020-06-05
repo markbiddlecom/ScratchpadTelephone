@@ -1,5 +1,12 @@
 version: 0.2
 
+env:
+  variables:
+    GIT_URL: "git@github.com:markbiddlecom/ScratchpadTelephone.git"
+  parameter-store:
+    SSH_KEY: github_id_rsa
+    SSH_PUB: github_id_rsa_pub
+
 phases:
   install:
     runtime-versions:
@@ -7,6 +14,21 @@ phases:
     commands:
       # Upgrade AWS CLI to the latest version
       - pip3 install --upgrade awscli
+      # Initialize our submodule
+      - mkdir -p ~/.ssh
+      - echo "SSH_KEY" > ~/.ssh/id_rsa
+      - echo "$SSH_PUB" > ~/.ssh/id_rsa.pub
+      - chmod 600 ~/.ssh/id_rsa
+      - eval "$(ssh-agent -s)"
+      - git init
+      - git remote add origin "$GIT_URL"
+      - git fetch origin
+      - git branch
+      - git checkout -f "$CODEBUILD_RESOLVED_SOURCE_VERSION"
+      - git submodule init
+      - git submodule update --recursive
+  pre_build:
+    commands:
       # Build the canvas dependency
       - cd react-canvas-draw
       - npm install
@@ -14,12 +36,10 @@ phases:
       # Install in our main project
       - cd ../web
       - npm install
-  pre_build:
-    commands:
-      - npm run test:nowatch
   build:
     commands:
       # Produce a build
+      - npm run test:nowatch
       - npm run build
   post_build:
     commands:
