@@ -6,6 +6,7 @@ env:
   parameter-store:
     SSH_KEY: github_id_rsa
     SSH_PUB: github_id_rsa_pub
+    KEY_PASSPHRASE: github_id_rsa_passphrase
 
 phases:
   install:
@@ -20,6 +21,7 @@ phases:
       - echo "$SSH_PUB" > ~/.ssh/id_rsa.pub
       - chmod 600 ~/.ssh/id_rsa
       - eval "$(ssh-agent -s)"
+      - echo "$KEY_PASSPHRASE" | ssh-add -p ~/.ssh/id_rsa
       - git init
       - git remote add origin "$GIT_URL"
       - git fetch origin
