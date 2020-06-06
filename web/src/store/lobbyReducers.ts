@@ -1,10 +1,10 @@
-import { RandomizePlayerNameAction, ChangePlayerNameAction } from "./appActions";
-import { Game, PlayerMap, Player, PeerId } from "./state";
+import { RandomizePlayerNameAction, ChangePlayerNameAction, EditPlayerDoneAction } from "./appActions";
+import { Game, PlayerMap, Player, PeerId, UserInterface, AppState } from "./state";
 import generateRandomPlayerName from "./generateRandomPlayerName";
 
 function changeLocalPlayer(
-    players: PlayerMap, 
-    playerId: PeerId, 
+    players: PlayerMap,
+    playerId: PeerId,
     modifier: (player: Player) => Player
 ): PlayerMap {
   return {
@@ -20,8 +20,8 @@ export function randomizePlayerNameReducer(gameState: Game | undefined, action: 
     return {
       ...gameState,
       players: changeLocalPlayer(
-          gameState.players, 
-          gameState.localPlayerId, 
+          gameState.players,
+          gameState.localPlayerId,
           player => ({
             ...player,
             name: generateRandomPlayerName(),
@@ -44,6 +44,31 @@ export function changePlayerNameReducer(gameState: Game | undefined, action: Cha
             ...player,
             name: action.name,
           })
+      ),
+    };
+  } else {
+    return undefined;
+  }
+}
+
+export function editPlayerDoneUiReducer(uiState: UserInterface | undefined, action: EditPlayerDoneAction): UserInterface {
+  return {
+    ...uiState,
+    appState: AppState.Lobby,
+  };
+}
+
+export function editPlayerDoneLobbyReducer(gameState: Game | undefined, action: EditPlayerDoneAction): Game | undefined {
+  if (gameState) {
+    return {
+      ...gameState,
+      players: changeLocalPlayer(
+        gameState.players,
+        gameState.localPlayerId,
+        player => ({
+          ...player,
+          avatar: action.playerImage,
+        })
       ),
     };
   } else {

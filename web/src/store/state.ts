@@ -25,6 +25,7 @@ export enum AppState {
   Landing = "landing",
   Connecting = "connecting",
   Lobby = "lobby",
+  LobbyDrawing = "lobby_drawing",
   Playing = "playing",
 };
 
@@ -44,7 +45,7 @@ export type Session = {
 export type Player = {
   name: string,
   id: PeerId,
-  avatar: any | null,
+  avatar: string | null,
   state: PlayerState,
   pendingInspirationId: CardId | null,
 };

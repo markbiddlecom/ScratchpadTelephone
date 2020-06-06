@@ -2,8 +2,10 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UndoIcon from '@material-ui/icons/Undo';
+import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
+import LZString from "lz-string";
 import React from "react";
 import CanvasDraw from "react-canvas-draw";
 
@@ -26,6 +28,7 @@ function brushRenderSize(brushSize: number): number {
 
 export type Props = {
   label: string,
+  imageDataCompressed?: string,
 };
 
 type State = {
@@ -61,6 +64,7 @@ export default class DrawingCanvas extends React.Component<Props, State> {
 
     this.handleResize = this.handleResize.bind(this);
     this.handleUndo = this.handleUndo.bind(this);
+    this.handleResetView = this.handleResetView.bind(this);
     this.handleClear = this.handleClear.bind(this);
     this.handleBrushSizeHandlers =
         BRUSH_SIZES
@@ -80,6 +84,15 @@ export default class DrawingCanvas extends React.Component<Props, State> {
       brushSize: BRUSH_SIZES[0],
       brushColor: COLORS[0],
     };
+  }
+
+  getImageDataCompressed(): string | undefined {
+    const saveData = this.canvasRef.current?.getSaveData();
+    return saveData && LZString.compressToBase64(saveData);
+  }
+
+  getImageDataUrl(): string {
+    return "TODO";
   }
 
   componentDidMount() {
@@ -124,8 +137,12 @@ export default class DrawingCanvas extends React.Component<Props, State> {
     this.canvasRef.current?.undo();
   }
 
+  private handleResetView() {
+    this.canvasRef.current?.resetView();
+  }
+
   private handleClear() {
-    this.canvasRef.current?.clear();
+    this.canvasRef.current?.eraseAll();
   }
 
   private renderLabel() {
@@ -162,6 +179,7 @@ export default class DrawingCanvas extends React.Component<Props, State> {
       </ToggleButtonGroup>
       <ButtonGroup>
         <Button onClick={this.handleUndo}><UndoIcon /></Button>
+        <Button onClick={this.handleResetView}><ZoomOutMapIcon /></Button>
         <Button onClick={this.handleClear}><DeleteIcon /></Button>
       </ButtonGroup>
     </div>);
@@ -179,6 +197,9 @@ export default class DrawingCanvas extends React.Component<Props, State> {
       lazyRadius={0}
       enablePanAndZoom
       clampLinesToDocument
+      imgSrc="paper.png"
+      backgroundColor="#eee"
+      mouseZoomFactor={0.001}
       brushRadius={this.state.brushSize}
       brushColor={this.state.brushColor}
       canvasWidth={this.state.canvasWidth}

@@ -11,11 +11,11 @@ import 'typeface-roboto';
 import Lobby from './pages/lobby/Lobby';
 
 type StateProps = {
-  appState: AppState, 
+  appState: AppState,
   gameToken: GameId | undefined ,
 };
 
-type ActionProps = { 
+type ActionProps = {
   joinGame: (token: GameId) => void,
 };
 
@@ -41,15 +41,16 @@ class App extends React.Component<Props> {
   render() {
     return (<React.Fragment>
       <CssBaseline />
-      {(this.props.appState === AppState.Landing 
+      {(this.props.appState === AppState.Landing
           || this.props.appState === AppState.Connecting) && (<LandingPage />)}
-      {this.props.appState === AppState.Lobby && (<Lobby />)}
+      {(this.props.appState === AppState.Lobby
+          || this.props.appState === AppState.LobbyDrawing) && (<Lobby />)}
     </React.Fragment>);
   }
 }
 
 export default connect(
-  (state: State): StateProps => ({ 
+  (state: State): StateProps => ({
     appState: state.ui.appState,
     gameToken: state.game?.data.token,
   }),

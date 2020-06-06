@@ -5,7 +5,7 @@ import { GameLoadedAction } from "./appActions";
 import generateRandomPlayerName from "./generateRandomPlayerName";
 
 export function gameLoadedUiReducer(uiState: UserInterface | undefined, action: GameLoadedAction): UserInterface {
-  return { ...(uiState || {}), appState: AppState.Lobby };
+  return { ...(uiState || {}), appState: AppState.LobbyDrawing };
 }
 
 export function gameLoadedGameReducer(gameState: Game | undefined, action: GameLoadedAction): Game {
@@ -18,7 +18,7 @@ export function gameLoadedGameReducer(gameState: Game | undefined, action: GameL
     pendingInspirationId: null,
   };
 
-  return { 
+  return {
     ...(gameState || {}),
     data: { token: action.token, timestamp: action.timestamp, syncUrl: action.syncUrl },
     localPlayerId: player.id,

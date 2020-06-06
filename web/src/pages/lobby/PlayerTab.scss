@@ -1,0 +1,35 @@
+.PlayerSection {
+  .PlayerRow {
+    display: flex;
+
+    .MuiFormControl-root {
+      width: 100%;
+    }
+
+    .RandomizeButton {
+      margin-left: 8px;
+      margin-right: -8px; // to get rid of padding _within_ the icons 😭
+
+      &[data-rolling="1"] svg {
+        animation: 0.25s ease-in-out 1 rolling;
+      }
+    }
+
+    .DoneButton {
+      margin-left: 16px;
+      height: 40px;
+      .MuiButton-label {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+    }
+  }
+
+  .DrawingCanvas {
+    width: 100%;
+  }
+}
+
+@keyframes rolling {
+  100% { transform: rotate(-180deg); }
+}

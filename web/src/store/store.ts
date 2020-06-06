@@ -8,15 +8,16 @@ import { gameLoadedUiReducer, gameLoadedGameReducer } from "./gameLoadedReducers
 import makeSectionReducer from "./makeSectionReducer";
 import requestingGameReducer from "./requestingGameReducer";
 import sessionReducer from "./session";
-import { randomizePlayerNameReducer, changePlayerNameReducer } from "./lobbyReducers";
+import { randomizePlayerNameReducer, changePlayerNameReducer, editPlayerDoneUiReducer, editPlayerDoneLobbyReducer as editPlayerDoneGameReducer } from "./lobbyReducers";
 import { State, Game, Session, UserInterface } from "./state";
 
 function appReducer(state: State | undefined = INITIAL_STATE, action: AnyAction): State {
-  const ui: UserInterface = makeSectionReducer(
+  const ui: UserInterface = makeSectionReducer<UserInterface>(
       INITIAL_STATE.ui,
       {
         [AppActionType.RequestingGame]: requestingGameReducer,
         [AppActionType.GameLoaded]: gameLoadedUiReducer,
+        [AppActionType.EditPlayerDone]: editPlayerDoneUiReducer,
       }
   )(state.ui, action);
   const game: Game | undefined = makeSectionReducer<Game | undefined>(
@@ -25,6 +26,7 @@ function appReducer(state: State | undefined = INITIAL_STATE, action: AnyAction)
         [AppActionType.GameLoaded]: gameLoadedGameReducer,
         [AppActionType.RandomizePlayerName]: randomizePlayerNameReducer,
         [AppActionType.ChangePlayerName]: changePlayerNameReducer,
+        [AppActionType.EditPlayerDone]: editPlayerDoneGameReducer,
       }
   )(state.game, action);
   const session: Session | undefined = sessionReducer(state.session, action);

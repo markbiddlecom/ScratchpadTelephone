@@ -10,8 +10,10 @@ export enum AppActionType {
   RequestingGame = "APP_REQUESTING_GAME",
   GameLoaded = "APP_GAME_LOADED",
   GameLoadFailed = "APP_GAME_LOAD_FAILED",
+  EditPlayer = "LOBBY_EDIT_PLAYER",
   RandomizePlayerName = "LOBBY_RANDOMIZE_PLAYER_NAME",
   ChangePlayerName = "LOBBY_CHANGE_PLAYER_NAME",
+  EditPlayerDone = "LOBBY_EDIT_PLAYER_DONE",
 };
 
 export type StandardThunkAction<ReturnType = void> = ThunkAction<ReturnType, State, unknown, AnyAction>;
@@ -21,7 +23,7 @@ export type NewGameAction = StandardThunkAction;
 export function newGame(): NewGameAction {
   return async function(dispatch): Promise<void> {
     dispatch(requestingGame());
-    
+
     try {
       const gameData = await createGameApi();
       dispatch(gameLoaded(gameData));
@@ -91,5 +93,22 @@ export function changePlayerName(name: string): ChangePlayerNameAction {
   return {
     type: AppActionType.ChangePlayerName,
     name: name,
+  };
+}
+
+export type EditPlayerAction = AnyAction;
+
+export function editPlayer(): EditPlayerAction {
+  return { type: AppActionType.EditPlayer };
+}
+
+export type EditPlayerDoneAction = AnyAction & {
+  playerImage: string,
+}
+
+export function editPlayerDone(playerImage: string): EditPlayerDoneAction {
+  return {
+    type: AppActionType.EditPlayerDone,
+    playerImage,
   };
 }
