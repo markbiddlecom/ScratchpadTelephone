@@ -103,12 +103,14 @@ export function editPlayer(): EditPlayerAction {
 }
 
 export type EditPlayerDoneAction = AnyAction & {
-  playerImage: string,
+  compressedImageData: string,
+  compressedDataUrl: string,
 }
 
-export function editPlayerDone(playerImage: string): EditPlayerDoneAction {
+export function editPlayerDone(compressedImageData: string, compressedDataUrl: string): EditPlayerDoneAction {
   return {
     type: AppActionType.EditPlayerDone,
-    playerImage,
+    compressedImageData,
+    compressedDataUrl,
   };
 }

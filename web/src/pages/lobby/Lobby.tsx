@@ -6,35 +6,42 @@ import { changePlayerName, randomizePlayerName, editPlayer, editPlayerDone } fro
 import GameControls from "./GameControls";
 import LobbyTab from "./LobbyTab";
 import PlayerTab from "./PlayerTab";
-import { State, AppState } from "../../store/state";
+import { State, AppState, PlayerMap, PeerId } from "../../store/state";
 
 import "./Lobby.scss";
 
 type StateProps = {
   appState: AppState,
   gameToken: string,
-  playerName: string,
-  playerAvatar: string | null | undefined,
+  players: PlayerMap,
+  localPlayerId: PeerId,
 };
 
 type ActionProps = {
   randomizePlayerName: () => void,
   changePlayerName: (name: string) => void,
   editPlayer: () => void,
-  editPlayerDone: (playerImage: string) => void,
+  editPlayerDone: (compressedImageData: string, compressedDataUrl: string) => void,
 };
 
 type Props = StateProps & ActionProps;
 
 function Lobby(props: Props) {
+  const localPlayer = props.players[props.localPlayerId];
   return (
-    <Grid container spacing={2} justify="center" className="Lobby">
-      <Grid item xs={12} md={7}>
+    <Grid container justify="center" className="Lobby OuterGrid">
+      <Grid className="ControlsContainer" item xs={12} md={7}>
         <GameControls gameToken={props.gameToken} />
       </Grid>
-      <Grid item xs={12} md={7}>
-        {props.appState === AppState.LobbyDrawing && (<PlayerTab {...props} />)}
-        {props.appState === AppState.Lobby && (<LobbyTab />)}
+      <Grid className="TabContainer" item xs={12} md={7}>
+        {props.appState === AppState.LobbyDrawing &&
+          <PlayerTab
+            playerName={localPlayer.name}
+            playerAvatarCompressedImageData={localPlayer.avatarCompressedImageData}
+            {...props}
+          />
+        }
+        {props.appState === AppState.Lobby && (<LobbyTab {...props} />)}
       </Grid>
     </Grid>
   );
@@ -45,8 +52,8 @@ export default connect(
     return {
       appState: state.ui.appState,
       gameToken: state.game?.data.token || "unknown",
-      playerName: state.game?.players[state.game?.localPlayerId].name || "",
-      playerAvatar: state.game?.players[state.game?.localPlayerId].avatar,
+      players: state.game?.players || {},
+      localPlayerId: state.game?.localPlayerId || "",
     };
   },
   { randomizePlayerName, changePlayerName, editPlayer, editPlayerDone }

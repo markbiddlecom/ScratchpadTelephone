@@ -45,7 +45,8 @@ export type Session = {
 export type Player = {
   name: string,
   id: PeerId,
-  avatar: string | null,
+  avatarCompressedDataUrl?: string,
+  avatarCompressedImageData?: string,
   state: PlayerState,
   pendingInspirationId: CardId | null,
 };

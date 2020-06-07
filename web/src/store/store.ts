@@ -8,7 +8,13 @@ import { gameLoadedUiReducer, gameLoadedGameReducer } from "./gameLoadedReducers
 import makeSectionReducer from "./makeSectionReducer";
 import requestingGameReducer from "./requestingGameReducer";
 import sessionReducer from "./session";
-import { randomizePlayerNameReducer, changePlayerNameReducer, editPlayerDoneUiReducer, editPlayerDoneLobbyReducer as editPlayerDoneGameReducer } from "./lobbyReducers";
+import {
+  randomizePlayerNameReducer,
+  changePlayerNameReducer,
+  editPlayerDoneUiReducer,
+  editPlayerDoneGameReducer,
+  editPlayerUiReducer
+} from "./lobbyReducers";
 import { State, Game, Session, UserInterface } from "./state";
 
 function appReducer(state: State | undefined = INITIAL_STATE, action: AnyAction): State {
@@ -17,6 +23,7 @@ function appReducer(state: State | undefined = INITIAL_STATE, action: AnyAction)
       {
         [AppActionType.RequestingGame]: requestingGameReducer,
         [AppActionType.GameLoaded]: gameLoadedUiReducer,
+        [AppActionType.EditPlayer]: editPlayerUiReducer,
         [AppActionType.EditPlayerDone]: editPlayerDoneUiReducer,
       }
   )(state.ui, action);

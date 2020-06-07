@@ -7,11 +7,20 @@
     }
 
     .RandomizeButton {
+      padding: 0;
+      margin-top: -6px;
       margin-left: 8px;
       margin-right: -8px; // to get rid of padding _within_ the icons 😭
 
-      &[data-rolling="1"] svg {
-        animation: 0.25s ease-in-out 1 rolling;
+      svg {
+        width: 52px;
+        height: 52px;
+      }
+
+      @media (prefers-reduced-motion: no-preference) {
+        &[data-rolling="1"] svg {
+          animation: 0.25s ease-in-out 1 rolling;
+        }
       }
     }
 

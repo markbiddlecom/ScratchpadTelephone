@@ -28,11 +28,14 @@ function brushRenderSize(brushSize: number): number {
 
 export type Props = {
   label: string,
+  backgroundImgSrc?: string,
   imageDataCompressed?: string,
+  animateSavedDrawing?: boolean,
 };
 
 type State = {
-  canvasWidth: number | null,
+  canvasWidth?: number,
+  canvasHeight?: number,
   brushSize: number,
   brushColor: string,
 };
@@ -80,7 +83,8 @@ export default class DrawingCanvas extends React.Component<Props, State> {
             }, {});
 
     this.state = {
-      canvasWidth: null,
+      canvasWidth: undefined,
+      canvasHeight: undefined,
       brushSize: BRUSH_SIZES[0],
       brushColor: COLORS[0],
     };
@@ -91,8 +95,9 @@ export default class DrawingCanvas extends React.Component<Props, State> {
     return saveData && LZString.compressToBase64(saveData);
   }
 
-  getImageDataUrl(): string {
-    return "TODO";
+  getImageDataUrlCompressed(): string | undefined {
+    const dataUrl = this.canvasRef.current?.toDataUrl("image/png");
+    return dataUrl && LZString.compressToBase64(dataUrl);
   }
 
   componentDidMount() {
@@ -119,9 +124,9 @@ export default class DrawingCanvas extends React.Component<Props, State> {
 
   private handleResize() {
     if (this.containerRef.current) {
-      this.setState({
-        canvasWidth: this.containerRef.current.clientWidth - 16,
-      });
+      const canvasWidth = this.containerRef.current.clientWidth - 16;
+      const canvasHeight = Math.min(canvasWidth, window.innerHeight * 0.75);
+      this.setState({ canvasWidth, canvasHeight });
     }
   }
 
@@ -190,6 +195,9 @@ export default class DrawingCanvas extends React.Component<Props, State> {
       return null;
     }
 
+    const imageData =
+      (this.props.imageDataCompressed && LZString.decompressFromBase64(this.props.imageDataCompressed)) || undefined;
+
     return (<CanvasDraw
       ref={this.canvasRef}
       className="Canvas"
@@ -197,13 +205,15 @@ export default class DrawingCanvas extends React.Component<Props, State> {
       lazyRadius={0}
       enablePanAndZoom
       clampLinesToDocument
-      imgSrc="paper.png"
+      imgSrc={this.props.backgroundImgSrc || "paper.png"}
       backgroundColor="#eee"
       mouseZoomFactor={0.001}
+      saveData={imageData}
+      immediateLoading={!this.props.animateSavedDrawing}
       brushRadius={this.state.brushSize}
       brushColor={this.state.brushColor}
       canvasWidth={this.state.canvasWidth}
-      canvasHeight={this.state.canvasWidth}
+      canvasHeight={this.state.canvasHeight}
     />);
   }
 

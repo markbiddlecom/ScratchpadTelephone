@@ -1,0 +1,15 @@
+.PlayerAvatar {
+  $size: 50px;
+
+  display: inline-block;
+  background-color: white;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 1px 1px 2px 0px #000000a6;
+  width: $size;
+  height: $size;
+  img {
+    width: $size;
+    height: $size;
+  }
+}

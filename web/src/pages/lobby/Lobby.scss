@@ -1,12 +1,7 @@
+@import '../../styles/layout';
+
 .Lobby {
-
-  button.MuiIconButton-root {
-    padding: 0;
-    margin-top: -6px;
-    svg {
-      width: 52px;
-      height: 52px;
-    }
+  .TabContainer {
+    margin-top: spacing(2);
   }
-
 }

@@ -13,7 +13,8 @@ export function gameLoadedGameReducer(gameState: Game | undefined, action: GameL
   const player: Player = {
     name: generateRandomPlayerName(),
     id: uuidv4(),
-    avatar: null,
+    avatarCompressedDataUrl: undefined,
+    avatarCompressedImageData: undefined,
     state: PlayerState.Joined,
     pendingInspirationId: null,
   };

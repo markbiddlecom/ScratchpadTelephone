@@ -1,0 +1,8 @@
+.PlayerCard {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  .Name {
+    margin-left: 16px;
+  }
+}

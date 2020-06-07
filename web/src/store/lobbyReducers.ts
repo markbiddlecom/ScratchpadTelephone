@@ -1,4 +1,4 @@
-import { RandomizePlayerNameAction, ChangePlayerNameAction, EditPlayerDoneAction } from "./appActions";
+import { RandomizePlayerNameAction, ChangePlayerNameAction, EditPlayerDoneAction, EditPlayerAction } from "./appActions";
 import { Game, PlayerMap, Player, PeerId, UserInterface, AppState } from "./state";
 import generateRandomPlayerName from "./generateRandomPlayerName";
 
@@ -51,6 +51,13 @@ export function changePlayerNameReducer(gameState: Game | undefined, action: Cha
   }
 }
 
+export function editPlayerUiReducer(uiState: UserInterface | undefined, action: EditPlayerAction) {
+  return {
+    ...uiState,
+    appState: AppState.LobbyDrawing,
+  };
+}
+
 export function editPlayerDoneUiReducer(uiState: UserInterface | undefined, action: EditPlayerDoneAction): UserInterface {
   return {
     ...uiState,
@@ -58,7 +65,7 @@ export function editPlayerDoneUiReducer(uiState: UserInterface | undefined, acti
   };
 }
 
-export function editPlayerDoneLobbyReducer(gameState: Game | undefined, action: EditPlayerDoneAction): Game | undefined {
+export function editPlayerDoneGameReducer(gameState: Game | undefined, action: EditPlayerDoneAction): Game | undefined {
   if (gameState) {
     return {
       ...gameState,
@@ -67,7 +74,8 @@ export function editPlayerDoneLobbyReducer(gameState: Game | undefined, action: 
         gameState.localPlayerId,
         player => ({
           ...player,
-          avatar: action.playerImage,
+          avatarCompressedDataUrl: action.compressedDataUrl,
+          avatarCompressedImageData: action.compressedImageData,
         })
       ),
     };

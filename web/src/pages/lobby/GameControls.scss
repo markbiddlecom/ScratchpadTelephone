@@ -10,14 +10,21 @@
       font-weight: bold;
     }
 
+
+
     button {
       position: relative;
       width: 52px;
       margin-left: 8px;
       margin-right: -8px;
 
+      padding: 0;
+      margin-top: -6px;
+
       svg {
         position: absolute;
+        width: 52px;
+        height: 52px;
 
         &.Copy.disappear {
           animation: 0.2s ease-out 1 shiftAway;

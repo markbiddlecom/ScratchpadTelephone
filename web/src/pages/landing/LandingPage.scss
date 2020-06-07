@@ -1,16 +1,21 @@
-@import './styles/layout';
+@import "../../styles/layout";
 
 .LandingPage {
-    .hero {
-        display: flex;
-        margin-bottom: spacing(2);
+  .hero {
+    display: flex;
+    margin-bottom: spacing(2);
 
-        .logo { margin-right: spacing(2); }
-      }
-
-    .StartGameForm {
-        max-width: 400px;
-        margin-left: auto;
-        margin-right: auto;
+    .logo {
+      margin-right: spacing(2);
     }
+  }
+
+  .StartGameFormContainer {
+    margin-top: spacing(2);
+    .StartGameForm {
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
 }

@@ -21,7 +21,7 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "typeface-roboto": "0.0.75",
-    "typescript": "^3.9.3",
+    "typescript": "^3.9.5",
     "uuid": "^8.1.0"
   },
   "scripts": {
@@ -50,7 +50,7 @@
     "@types/classnames": "^2.2.10",
     "@types/jest": "^24.9.1",
     "@types/lz-string": "^1.3.34",
-    "@types/node": "^12.12.43",
+    "@types/node": "^12.12.44",
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
     "@types/react-redux": "^7.1.9",
@@ -59,7 +59,7 @@
     "fibers": "^5.0.0",
     "node-sass": "^4.14.1",
     "redux-devtools": "^3.5.0",
-    "sass": "^1.26.7",
+    "sass": "^1.26.8",
     "sass-loader": "^8.0.2"
   }
 }

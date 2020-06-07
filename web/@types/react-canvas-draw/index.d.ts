@@ -45,6 +45,11 @@ declare module "react-canvas-draw" {
       getSaveData(): string;
 
       /**
+       * Computes a data URL containing the image data from this canvas in the given MIME type.
+       */
+      toDataUrl(mimeType: "image/png"): string | undefined;
+
+      /**
        * Loads a previously saved drawing using the saveData string, as well as an optional boolean
        * flag to load it immediately, instead of live-drawing it.
        */

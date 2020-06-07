@@ -13,9 +13,10 @@ import "./PlayerTab.scss";
 
 export type Props = {
   playerName: string,
+  playerAvatarCompressedImageData?: string,
   changePlayerName: (name: string) => void,
   randomizePlayerName: () => void,
-  editPlayerDone: (playerImage: string) => void,
+  editPlayerDone: (compressedImageData: string, compressedDataUrl: string) => void,
 }
 
 type State = {
@@ -47,7 +48,8 @@ export default class PlayerTab extends React.Component<Props, State> {
 
   private handleDone() {
     const imageData = this.canvasRef.current?.getImageDataCompressed();
-    imageData && this.props.editPlayerDone(imageData);
+    const dataUrl = this.canvasRef.current?.getImageDataUrlCompressed();
+    imageData && dataUrl && this.props.editPlayerDone(imageData, dataUrl);
   }
 
   render() {
@@ -79,7 +81,12 @@ export default class PlayerTab extends React.Component<Props, State> {
           >Done</Button>
         </Grid>
         <Grid item xs={12}>
-          <DrawingCanvas label="Draw yourself!" ref={this.canvasRef} />
+          <DrawingCanvas
+            label="Draw yourself!"
+            ref={this.canvasRef}
+            imageDataCompressed={this.props.playerAvatarCompressedImageData}
+            backgroundImgSrc="avatar-paper.png"
+          />
         </Grid>
       </Grid>
     </Paper>);
